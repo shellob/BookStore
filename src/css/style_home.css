@@ -1,14 +1,37 @@
-.welcome-table{
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+body {
+    background-image:url('https://github.com/shellob/BookStore/blob/main/src/assets/lib-pic.jpg') ;
+    font-family: 'Lora', serif; /* Задаём основной шрифт для body */
+    
+}
+
+.welcome-table {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    flex-direction: column;
+    font-family: 'EB Garamond', serif;
 }
 
-body{
-    background-image: url(https://i.gifer.com/YmXB.gif);
+input {
+    text-align: center;
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px; /* Исправлено на px */
+    margin-bottom: 20px;
+    font-size: medium;
+    font-family: 'EB Garamond', serif; /* Используем название шрифта, а не URL */
 }
 
-h1{
-    color:seashell
+h1 {
+    color: seashell;
+    font-family: 'EB Garamond', serif; /* Подключаем шрифт для заголовка */
+}
+
+button {
+    font-family: 'EB Garamond', serif;
 }
