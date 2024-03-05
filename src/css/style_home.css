@@ -1,0 +1,14 @@
+.welcome-table{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+body{
+    background-image: url(https://i.gifer.com/YmXB.gif);
+}
+
+h1{
+    color:seashell
+}

@@ -1,9 +1,38 @@
-const searchInput = document.getElementById('searchInput')
-const searchButton = document.getElementById('searchButton')
-const bookList = document.getElementById('booklist')
-const modalContainer = document.querySelector('modalContainer')
-const bookDetailsContent = document.querySelector('book-details-content')
-const bookCloseBtn = document.getElementById('bookCloseBtn')
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+const bookList = document.getElementById('bookList'); 
+
+async function searchBooksByName(bookName) {
+    try {
+        const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(bookName)}&limit=10`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+        const data = await response.json();
+        return data.docs; 
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return []; 
+    }
+}
+
+function displayBooks(books) {
+    bookList.innerHTML = '';
+    if (books.length > 0) {
+        books.forEach(book => {
+            const coverImage = book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : 'placeholder-image-url.jpg'; // Укажите URL запасного изображения
+            const bookItem = document.createElement('div');
+            bookItem.classList.add('book-item');
+            bookItem.innerHTML = `
+                <img src="${coverImage}" alt="${book.title}" onerror="this.onerror=null;this.src='fallback-image-url.jpg';"> 
+                <h3>${book.title}</h3>
+            `;
+            bookList.appendChild(bookItem);
+        });
+    } else {
+        bookList.innerHTML = '<p>No books found. Try again!</p>'; 
+    }
+}
 
 searchButton.addEventListener('click', async () => {
     const bookName = searchInput.value.trim();
@@ -13,43 +42,8 @@ searchButton.addEventListener('click', async () => {
     }
 });
 
-bookList.addEventListener('click', async(e) => {
-    const card = e.target.closest('.book-item');
-    if (card) {
-        const bookId = card.dataset.id;
-        const book = await getBookDetails(bookId);
-        if(book) {
-            showBookDetailsPopup(book);
-        }
-
+searchInput.addEventListener('keyup', (e) => {
+    if (e.key === "Enter") {
+        searchButton.click();
     }
-})
-async function searchBooksByName(bookName){
-    try {
-        const response = await fetch(`https://isbndb.com/search/books?search_param=books&x=${bookName}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok.');
-        }
-        const data = await response.json();
-        return data.books;
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        return null; 
-    }
-}
-
-function displayBooks(bookArray){
-    bookList.innerHTML = ''; // Предполагаем, что bookList - это DOM элемент, где отображаются книги
-    if (bookArray && bookArray.length > 0){
-        bookArray.forEach(book => {
-            const bookItem = document.createElement('div');
-            bookItem.classList.add('book-item');
-            bookItem.dataset.id = book.idBook;
-            bookItem.innerHTML = `<img src="${book.strBookThumb}" alt="${book.strBook}"> <h3>${book.strBook}</h3>`;
-            bookList.appendChild(bookItem);
-        });
-    } else {
-        bookList.innerHTML = '<p>No books found. Try again!</p>';
-    }
-}
-
+});
