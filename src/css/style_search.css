@@ -1,41 +1,98 @@
-@import url(https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Lora:ital,wght@0,400..700;1,400..700&display=swap);
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 
-.search {
-    margin-bottom: 20px;
+body {
+    background-image: url('https://raw.githubusercontent.com/shellob/BookStore/main/src/assets/lib_inside.webp');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    color: whitesmoke;
+    font-family: 'Lora', serif;
+    margin: 0;
+    padding-top: 100px;
 }
 
-.book-list {
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+h1 {
+    color: whitesmoke;
+    text-align: center;
+    animation: fadeIn 2s ease-in-out;
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+#results {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
 }
 
 .book-item {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
+    flex: 1 1 220px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
 }
 
 .book-item img {
-    max-width: 100px;
+    max-width: 100%;
     height: auto;
 }
 
 .modal-container {
-    display: none; /* Изначально скрыт */
-    position: fixed; /* Фиксированное позиционирование */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
-.book-details-content {
-    background: white;
-    margin: 10% auto;
+.modal-content {
+    position: relative;
+    background: #fff;
     padding: 20px;
-    width: 90%;
-    max-width: 400px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #333;
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 30px;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .book-item {
+        flex: 1 1 150px;
+    }
 }

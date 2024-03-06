@@ -13,23 +13,38 @@ async function fetchSearchResults(query) {
 
 function displayBooks(books) {
     const results = document.getElementById('results');
-    results.innerHTML = ''; // Обратите внимание, что мы меняем 'bookList' на 'results'
+    results.innerHTML = '';
 
-    if (books.length > 0) {
-        books.forEach(book => {
-            const coverImage = book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : 'fallback-image-url.jpg';
-            const bookItem = document.createElement('div');
-            bookItem.classList.add('book-item');
-            bookItem.innerHTML = `
-                <img src="${coverImage}" alt="${book.title}" onerror="this.onerror=null;this.src='fallback-image-url.jpg';">
-                <h3>${book.title}</h3>
-                <p>${book.author_name ? book.author_name.join(', ') : 'Unknown Author'}</p>
-            `;
-            results.appendChild(bookItem); // Также замените здесь 'bookList' на 'results'
+    books.forEach(book => {
+        const coverImage = book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : 'fallback-image-url.jpg';
+        const bookItem = document.createElement('div');
+        bookItem.classList.add('book-item');
+        bookItem.innerHTML = `
+            <img src="${coverImage}" alt="${book.title}" onerror="this.onerror=null;this.src='fallback-image-url.jpg';">
+            <h3>${book.title}</h3>
+            <p>${book.author_name ? book.author_name.join(', ') : 'Unknown Author'}</p>
+        `;
+        bookItem.addEventListener('click', () => {
+            showBookDetails(book);
         });
-    } else {
-        results.innerHTML = '<p>No books found. Try again!</p>';
-    }
+        results.appendChild(bookItem);
+    });
+}
+
+function showBookDetails(book) {
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalAuthor = document.getElementById('modalAuthor');
+    const modalPrice = document.getElementById('modalPrice');
+
+    modalTitle.textContent = book.title;
+    modalAuthor.textContent = book.author_name ? book.author_name.join(', ') : 'Unknown Author';
+    modalPrice.textContent = `Price: $${generatePrice()}`;
+    modal.style.display = 'flex';
+}
+
+function generatePrice() {
+    return (Math.random() * 50).toFixed(2);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,4 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (query) {
         fetchSearchResults(query);
     }
+});
+
+document.getElementById('closeModal').addEventListener('click', () => {
+    document.getElementById('modal').style.display = 'none';
 });
